@@ -1,0 +1,36 @@
+{
+  "name": "digitickets/omnipay-pay360-hosted-cashier",
+  "type": "library",
+  "description": "Pay360 Hosted Cashier driver for the Omnipay payment processing library",
+  "keywords": [
+    "pay360",
+    "hosted",
+    "gateway",
+    "merchant",
+    "omnipay",
+    "web",
+    "service"
+  ],
+  "homepage": "https://github.com/digitickets/omnipay-pay360-hosted-cashier",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "DigiTickets\\OmnipayPay360HostedCashier\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "DigiTickets\\OmnipayPay360HostedCashier\\": "tests/"
+    }
+  },
+  "require": {
+    "omnipay/common": "^2.0",
+    "php": "^7"
+  },
+  "require-dev": {
+    "omnipay/tests": "^2.0",
+    "mockery/mockery": "~0.8"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
