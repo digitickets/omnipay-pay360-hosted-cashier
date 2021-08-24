@@ -4,6 +4,7 @@ namespace DigiTickets\OmnipayPay360HostedCashier\Message;
 
 use Omnipay\Common\CreditCard;
 use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Exception\InvalidResponseException;
 use function sprintf;
 
 class RedirectPurchaseRequest extends AbstractPay360Request
@@ -21,18 +22,16 @@ class RedirectPurchaseRequest extends AbstractPay360Request
 
         $card = $this->getCard();
 
-        $data = [
+        return [
             'session' => $this->getSessionData(),
             'transaction' => $this->getTransactionData(),
             'customer' => $this->getCustomerData($card),
         ];
-
-        return $data;
     }
 
     protected function getCustomerData(CreditCard $card): array
     {
-        $data = [
+        return [
             'registered' => false,
             'details' => [
                 'name' => $card->getName(),
@@ -48,13 +47,14 @@ class RedirectPurchaseRequest extends AbstractPay360Request
                 'emailAddress' => $card->getEmail(),
             ],
         ];
-
-        return $data;
     }
 
+    /**
+     * @throws InvalidRequestException
+     */
     protected function getTransactionData(): array
     {
-        $data = [
+        return [
             'merchantReference' => $this->getTransactionId(),
             'money' => [
                 'currency' => $this->getCurrency(),
@@ -63,8 +63,6 @@ class RedirectPurchaseRequest extends AbstractPay360Request
                 ],
             ],
         ];
-
-        return $data;
     }
 
     protected function getSessionData(): array
@@ -76,13 +74,16 @@ class RedirectPurchaseRequest extends AbstractPay360Request
         ];
         if ($this->getNotifyUrl()) {
             $data['transactionNotification'] = [
-                'url' => 'https://winghamwildlifepark.digitickets.co.uk/payment-callback/f/D393JGYB0x20472575', //this->getNotifyUrl(),
+                'url' => $this->getNotifyUrl(),
             ];
         }
 
         return $data;
     }
 
+    /**
+     * @throws InvalidResponseException
+     */
     public function sendData($data): RedirectPurchaseResponse
     {
         // post to the endpoint, getting the redirect URL back to Pay360
@@ -96,12 +97,10 @@ class RedirectPurchaseRequest extends AbstractPay360Request
 
     public function getEndpoint(): string
     {
-        $endpoint = sprintf(
+        return sprintf(
             $this->apiResourceString,
             parent::getEndpoint(),
             $this->getInstallationId()
         );
-
-        return $endpoint;
     }
 }

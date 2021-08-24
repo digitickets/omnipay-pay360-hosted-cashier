@@ -40,14 +40,11 @@ class RedirectPurchaseResponse extends AbstractResponse implements RedirectRespo
     /**
      * @return string|null
      */
-    public function getTransactionReference(): string
+    public function getTransactionReference()
     {
         return $this->data['sessionId'];
     }
 
-    /**
-     * @return string
-     */
     public function getTransactionId(): string
     {
         return $this->data->merchantreference;
@@ -74,26 +71,18 @@ class RedirectPurchaseResponse extends AbstractResponse implements RedirectRespo
 
     /**
      * Url to redirect to the customer to pay360
-     *
-     * @return string
      */
     public function getRedirectUrl(): string
     {
         return $this->data['redirectUrl'];
     }
 
-    /**
-     * @return string
-     */
-    public function getRedirectMethod()
+    public function getRedirectMethod() : string
     {
         return 'GET';
     }
 
-    /**
-     * @return array
-     */
-    public function getRedirectData()
+    public function getRedirectData() : array
     {
         return $this->data;
     }

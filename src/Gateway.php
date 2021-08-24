@@ -39,7 +39,9 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Called on provider's callback or redirect back to us
+     * Call when Pay360 sends a callback request to the merchant system (from notifyUrl param),
+     * and/or when Pay360 redirects back to the merchant site (from redirectUrl param).
+     * This validates that the payment was successful or was denied.
      * @return AbstractRequest|CompleteRedirectPurchaseRequest
      */
     public function completePurchase(array $options = []): RequestInterface
@@ -53,8 +55,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Initiate a purchase, returns a redirect url
-     * @return AbstractRequest|RedirectPurchaseRequest
+     * @return AbstractRequest|RedirectPurchaseRequest - provides a url to redirect to
      */
     public function purchase(array $options = []): RequestInterface
     {

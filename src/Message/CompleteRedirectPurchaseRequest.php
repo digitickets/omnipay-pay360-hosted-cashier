@@ -2,13 +2,13 @@
 
 namespace DigiTickets\OmnipayPay360HostedCashier\Message;
 
+/**
+ * Gets the transaction status from Pay360
+ */
 class CompleteRedirectPurchaseRequest extends AbstractPay360Request
 {
     protected $apiResourceString = '%s/hosted/rest/sessions/%s/%s/status';
 
-    /**
-     * @return array
-     */
     public function getData(): array
     {
         return $this->httpRequest->query->all();
@@ -26,12 +26,9 @@ class CompleteRedirectPurchaseRequest extends AbstractPay360Request
             $this->httpClient->setConfig(['verify' => false]);
         }
 
-        $jsonData = json_encode($data);
-
         $httpResponse = $this->httpClient->get(
             $this->getEndpoint(),
             $this->getHeaders()
-            // , $jsonData
         )->send();
 
         return $this->response = new CompleteRedirectPurchaseResponse(
@@ -40,16 +37,11 @@ class CompleteRedirectPurchaseRequest extends AbstractPay360Request
         );
     }
 
-    /**
-     * @return string
-     */
     public function getEndpoint(): string
     {
-        $endpoint = sprintf($this->apiResourceString, parent::getEndpoint(),
+        return sprintf($this->apiResourceString, parent::getEndpoint(),
             $this->getInstallationId(),
             $this->httpRequest->query->get('sessionId')
         );
-
-        return $endpoint;
     }
 }
