@@ -55,7 +55,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * @return AbstractRequest|RedirectPurchaseRequest - provides a url to redirect to
+     * @return AbstractRequest|RedirectPurchaseRequest
      */
     public function purchase(array $options = []): RequestInterface
     {
