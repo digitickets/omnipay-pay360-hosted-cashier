@@ -75,6 +75,7 @@ class RedirectPurchaseRequest extends AbstractPay360Request
         if ($this->getNotifyUrl()) {
             $data['transactionNotification'] = [
                 'url' => $this->getNotifyUrl(),
+                'format' => 'REST_JSON',
             ];
         }
 

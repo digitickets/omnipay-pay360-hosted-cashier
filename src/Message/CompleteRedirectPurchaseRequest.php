@@ -2,6 +2,8 @@
 
 namespace DigiTickets\OmnipayPay360HostedCashier\Message;
 
+use Omnipay\Common\Exception\InvalidRequestException;
+
 /**
  * Gets the transaction status from Pay360
  */
@@ -37,11 +39,29 @@ class CompleteRedirectPurchaseRequest extends AbstractPay360Request
         );
     }
 
+    /**
+     * @return string
+     * @throws InvalidRequestException
+     */
     public function getEndpoint(): string
     {
-        return sprintf($this->apiResourceString, parent::getEndpoint(),
+        $sessionID = $this->httpRequest->query->get('sessionId');
+        if (!$sessionID) {
+            // If this is from a webhook, we get the full transaction details in the post body
+            $json = json_decode($this->httpRequest->getContent(), true);
+            if ($json && !empty($json["sessionId"])) {
+                $sessionID = $json["sessionId"];
+            }
+        }
+        if (!$sessionID) {
+            throw new InvalidRequestException("Missing sessionId in query string request/callback from Pay360");
+        }
+
+        return sprintf(
+            $this->apiResourceString,
+            parent::getEndpoint(),
             $this->getInstallationId(),
-            $this->httpRequest->query->get('sessionId')
+            $sessionID
         );
     }
 }

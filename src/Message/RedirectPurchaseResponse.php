@@ -42,7 +42,7 @@ class RedirectPurchaseResponse extends AbstractResponse implements RedirectRespo
      */
     public function getTransactionReference()
     {
-        return $this->data['sessionId'];
+        return $this->data['sessionId'] ?? '';
     }
 
     public function getTransactionId(): string
@@ -57,7 +57,7 @@ class RedirectPurchaseResponse extends AbstractResponse implements RedirectRespo
      */
     public function getMessage()
     {
-        return $this->data['reasonMessage'];
+        return $this->data['reasonMessage'] ?? '';
     }
 
     /**
@@ -65,7 +65,7 @@ class RedirectPurchaseResponse extends AbstractResponse implements RedirectRespo
      */
     public function getCode()
     {
-        return $this->data['reasonCode'];
+        return $this->data['reasonCode'] ?? '';
     }
 
 
@@ -74,15 +74,15 @@ class RedirectPurchaseResponse extends AbstractResponse implements RedirectRespo
      */
     public function getRedirectUrl(): string
     {
-        return $this->data['redirectUrl'];
+        return $this->data['redirectUrl'] ?? '';
     }
 
-    public function getRedirectMethod() : string
+    public function getRedirectMethod(): string
     {
         return 'GET';
     }
 
-    public function getRedirectData() : array
+    public function getRedirectData(): array
     {
         return $this->data;
     }
