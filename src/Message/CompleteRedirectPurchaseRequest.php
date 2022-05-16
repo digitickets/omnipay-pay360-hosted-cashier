@@ -49,7 +49,7 @@ class CompleteRedirectPurchaseRequest extends AbstractPay360Request
         if (!$sessionID) {
             // If this is from a webhook, we get the full transaction details in the post body
             $json = json_decode($this->httpRequest->getContent(), true);
-            if ($json && !empty($json["sessionId"])) {
+            if (!empty($json["sessionId"])) {
                 $sessionID = $json["sessionId"];
             }
         }
